@@ -1,4 +1,3 @@
-
 # multilevel-http
 
 *Access a leveldb instance from multiple processes via HTTP.*
@@ -69,17 +68,6 @@ Get tha value stored at `:key`.
 bar
 ```
 
-### PUT /data
-
-Write many values batched.
-
-```js
-/* PUT /data [
-  { key : 'bar', value : 'baz' },
-  { key : 'foo', value : 'bar' }
-] */
-```
-
 ### POST /data/:key
 
 Store data at `:key`.
@@ -96,6 +84,28 @@ Delete data stored at `:key`.
 ```js
 // DEL /data/foo
 "ok"
+```
+
+### PUT /data
+
+Store many values batched.
+
+```js
+/* PUT /data [
+  { key : 'bar', value : 'baz' },
+  { key : 'foo', value : 'bar' }
+] */
+```
+
+### POST /data
+
+Do many operations batched.
+
+```js
+/* PUT /data [
+  { type : 'put', key : 'bar', value : 'baz' },
+  { type : 'del', key : 'foo' }
+] */
 ```
 
 ### GET /approximateSize/:from..:to
