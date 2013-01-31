@@ -11,28 +11,38 @@ A limitation of LevelDB is that only one process is allowed access to the underl
 npm install multilevel-http
 ```
 
+## API
+
+Server:
+
+```js
+var multilevel = require('multilevel')
+// db = levelup instance or path to db
+var server = multilevel.server(db, options)
+server.listen(5000)
+```
+
+Client:
+
+```js
+var multilevel = require('multilevel')
+var db = multilevel.client('http://localhost:5000/')
+// now you have the complete levelUP api!
+// ...except for events, for now
+```
+
 ## CLI
 
 ```bash
 $ sudo npm install -g multilevel-http
-$ multilevel-http --help
-
-multilevel-http [OPTIONS] path-to-db
-
-Options:
-  --port, -p  The port to listen on     [default: 3000]
-  --help, -h  Print usage instructions
-
+$ multilevel-http -p 5000 path/to.db
 ```
 
 ## HTTP API
 
 ### Params
 
-The following params are implemented where they make sense:
-
-* `?limit=num` Limit the result set to `num` values
-* `?revert=true` Get data in descending order
+Use get-params to pass options to LevelDB, like `?encoding=json`
 
 ### GET /meta
 
@@ -163,15 +173,15 @@ var multilevel = require('multilevel-http')('my.db')
 multilevel.listen(3000)
 ```
 
-### multilevel(path|db, meta)
+### multilevel.server(path|db, meta)
 
-### multilevel#listen(port)
+### server#listen(port)
 
 Start serving on the given port.
 
-### multilevel.{db,meta}
+### server#{db,meta}
 
-The stored db and meta exposed.
+The stored db and meta data exposed.
 
 ## License
 

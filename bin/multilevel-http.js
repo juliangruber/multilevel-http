@@ -19,6 +19,6 @@ var argv = optimist
   
 if (argv.help || argv._.length != 1) return optimist.showHelp()
 
-multilevel(argv._[0]).listen(argv.port, function () {
+multilevel.server(argv._[0]).listen(argv.port, function () {
   console.log('multilevel-http listening on port ' + argv.port)
 })
