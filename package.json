@@ -1,6 +1,6 @@
 {
   "name": "multilevel-http",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Access a leveldb instance from multiple processes via HTTP",
   "main": "index.js",
   "scripts": {
@@ -21,13 +21,13 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "levelup": "~0.5.2",
     "express": "~3.1.0",
     "JSONStream": "~0.4.3",
     "optimist": "~0.3.5",
     "request": "~2.12.0",
     "through": "~2.1.0",
-    "duplexer": "~0.0.2"
+    "duplexer": "~0.0.2",
+    "levelup": "~0.6.1"
   },
   "devDependencies": {
     "should": "~1.2.1",
