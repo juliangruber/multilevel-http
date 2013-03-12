@@ -4,6 +4,8 @@
 
 A limitation of LevelDB is that only one process is allowed access to the underlying data. **multilevel-http** exports a LevelDB instance over http.
 
+[![Build Status](https://travis-ci.org/juliangruber/multilevel-http.png)](https://travis-ci.org/juliangruber/multilevel-http)
+
 ## Installation
 
 ```bash
