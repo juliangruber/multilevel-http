@@ -1,6 +1,6 @@
 {
   "name": "multilevel-http",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Access a leveldb instance from multiple processes via HTTP",
   "main": "index.js",
   "scripts": {
@@ -37,5 +37,8 @@
   },
   "bin": {
     "multilevel-http": "./bin/multilevel-http.js"
+  },
+  "engines": {
+    "node": ">=0.8"
   }
 }
