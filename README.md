@@ -17,7 +17,7 @@ npm install multilevel-http
 Server:
 
 ```js
-var multilevel = require('multilevel')
+var multilevel = require('multilevel-http')
 // db = levelup instance or path to db
 var server = multilevel.server(db, options)
 server.listen(5000)
@@ -26,7 +26,7 @@ server.listen(5000)
 Client:
 
 ```js
-var multilevel = require('multilevel')
+var multilevel = require('multilevel-http')
 var db = multilevel.client('http://localhost:5000/')
 // now you have the complete levelUP api!
 // ...except for events, for now
