@@ -1,6 +1,6 @@
 var should = require('should')
 var request = require('supertest')
-var levelup = require('levelup')
+var levelup = require('level')
 var fs = require('fs.extra')
 var multilevel = require('..')
 
