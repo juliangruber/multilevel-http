@@ -1,5 +1,4 @@
 // server setup
-// NOTE: to run this example you must: `npm install rimraf`
 var level = require('level')
 var LEVEL_PATH = '/tmp/multilevel-http'
 // cleanup
