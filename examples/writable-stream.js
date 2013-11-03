@@ -16,14 +16,17 @@ var client = multilevel.client('http://localhost:' + port + '/')
 
 // sample app
 var pieces = 'multilevel-http helps you out with scaling'.split(' ')
-var ws = db.createWriteStream();
+var ws = client.createWriteStream();
 for (var i = 0; i < pieces.length; i++) {
   ws.write({ key: 'slice_' + i, value: pieces[i] })
 }
-ws.end()
 
-client.createReadStream().on('data', function (data) {
-  console.log(data.key + ' : ' + data.value)
-}).on('end', function() {
-  process.exit()
+ws.on('end', function() {
+  client.createReadStream().on('data', function (data) {
+    console.log(data.key + ' : ' + data.value)
+  }).on('end', function() {
+    process.exit()
+  })
 })
+
+ws.end()
