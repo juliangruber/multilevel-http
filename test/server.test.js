@@ -1,16 +1,15 @@
 var should = require('should')
 var request = require('supertest')
 var levelup = require('level')
-var fs = require('fs.extra')
+var rimraf = require('rimraf')
 var multilevel = require('..')
 
 var app
 
 beforeEach(function (done) {
   if (app && app.db) app.db.close()
-  fs.rmrf(__dirname + '/server.test.db', function () {
-    done()
-  })
+  rimraf.sync(__dirname + '/server.test.db')
+  done()
 })
 
 beforeEach(function () {

@@ -1,7 +1,7 @@
 var multilevel = require('..')
 var server = multilevel.server(__dirname + '/client.test.db')
 var should = require('should')
-var fs = require('fs.extra')
+var rimraf = require('rimraf')
 var nock = require('nock')
 var after = require('after')
 
@@ -10,8 +10,10 @@ server.listen(5001)
 beforeEach(function (done) {
   nock.cleanAll()
   server.db.close()
-  fs.rmrf(__dirname + '/client.test.db', function () {
-    server.db.open()
+  rimraf.sync(__dirname + '/client.test.db')
+  server.db.open(function(err) {
+    if (err) throw err
+
     done()
   })
 })
@@ -201,10 +203,6 @@ describe('client', function () {
     })
   })
   
-  // TODO:
-  // this test fails for some unknown reason, although it you checkout the
-  // example for writable-stream.js it works just fine
-  /*
   describe('db#writeStream()', function () {
     it('should save', function (done) {
       var ws = db.writeStream()
@@ -222,7 +220,6 @@ describe('client', function () {
       ws.end()
     })
   })
-  // */
 
   describe('bad http codes', function () {
     var url = 'http://localhost:5001'

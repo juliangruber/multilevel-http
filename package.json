@@ -28,13 +28,13 @@
     "through": "~2.3.4",
     "duplexer": "~0.1.1",
     "level": "~0.17.0",
-    "xtend": "~2.1.1"
+    "xtend": "~2.1.1",
+    "level-store": "~3.10.0"
   },
   "devDependencies": {
     "should": "~1.2.1",
     "mocha": "~1.8.1",
     "supertest": "~0.5.1",
-    "fs.extra": "~1.2.0",
     "after": "~0.8.1",
     "nock": "~0.22.1",
     "portfinder": "~0.2.1",
