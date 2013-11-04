@@ -37,5 +37,5 @@ function next(err) {
 }
 
 for (var i = 0; i < pieces.length; i++) {
-  db.put('piece_' + i, pieces[i], next)
+  client.put('piece_' + i, pieces[i], next)
 }
