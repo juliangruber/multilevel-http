@@ -44,7 +44,8 @@ request(REGISTRY_URL, function (err, res, body) {
     if (err) throw err
 
     client.createReadStream().on('data', function (data) {
-      console.log(data.key + '@' + data.value['dist-tags'].latest + ' by ' + data.value.author.name)
+      var author = (data.value.author && data.value.author.name) || 'unknown'
+      console.log(data.key + '@' + data.value['dist-tags'].latest + ' by ' + author)
     }).on('end', function() {
       process.exit()
     })

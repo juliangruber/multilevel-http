@@ -7,12 +7,14 @@ require('rimraf').sync(LEVEL_PATH)
 var db = level(LEVEL_PATH)
 var multilevel = require('../')
 var server = multilevel.server(db)
-var port = process.env.PORT || 5000;
+var port = parseInt(process.env.PORT, 10) || 5000;
 server.listen(port)
 console.log('multilevel-http server started on port %s\n', port)
 
 // client setup
-var client = multilevel.client('http://localhost:' + port + '/')
+var client = multilevel.client(port)
+// more verbose, in case if you need to specify host protocol etc
+// var client = multilevel.client('http://localhost:' + port + '/')
 
 // sample app
 var pieces = 'multilevel-http helps you out with scaling'.split(' ')
