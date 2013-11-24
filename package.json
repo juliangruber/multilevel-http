@@ -4,7 +4,7 @@
   "description": "Access a leveldb instance from multiple processes via HTTP",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --globals parse"
+    "test": "NODE_ENV=test mocha"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "duplexer": "~0.1.1",
     "level": "~0.17.0",
     "xtend": "~2.1.1",
-    "msgpack-stream": ">=0.0.11"
+    "msgpack-stream": ">=0.0.12"
   },
   "devDependencies": {
     "should": "~1.2.1",
