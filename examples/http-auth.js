@@ -4,7 +4,7 @@ var LEVEL_PATH = '/tmp/multilevel-http'
 require('rimraf').sync(LEVEL_PATH)
 // levelDb instance
 var db = level(LEVEL_PATH)
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 5000
 var multilevel = require('../')
 
 // server setup using express

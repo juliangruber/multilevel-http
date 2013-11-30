@@ -52,7 +52,7 @@ describe('http', function () {
     it('should get json', function (done) {
       app.db.put('json', { some : 'json' }, { encoding : 'json' }, function (err) {
         if (err) return done(err)
-        
+
         request(app)
         .get('/data/json?encoding=json')
         .expect(200)
