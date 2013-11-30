@@ -1,16 +1,15 @@
 var should = require('should')
 var request = require('supertest')
-var levelup = require('levelup')
-var fs = require('fs.extra')
+var levelup = require('level')
+var rimraf = require('rimraf')
 var multilevel = require('..')
 
 var app
 
 beforeEach(function (done) {
   if (app && app.db) app.db.close()
-  fs.rmrf(__dirname + '/server.test.db', function () {
-    done()
-  })
+  rimraf.sync(__dirname + '/server.test.db')
+  done()
 })
 
 beforeEach(function () {
@@ -53,7 +52,7 @@ describe('http', function () {
     it('should get json', function (done) {
       app.db.put('json', { some : 'json' }, { encoding : 'json' }, function (err) {
         if (err) return done(err)
-        
+
         request(app)
         .get('/data/json?encoding=json')
         .expect(200)
@@ -259,7 +258,7 @@ describe('http', function () {
       })
     })
   })
-  
+
   describe('POST /data', function () {
     it('should save', function (done) {
       request(app)
@@ -275,4 +274,5 @@ describe('http', function () {
       })
     })
   })
+  
 })

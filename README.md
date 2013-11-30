@@ -19,7 +19,7 @@ Server:
 ```js
 var multilevel = require('multilevel-http')
 // db = levelup instance or path to db
-var server = multilevel.server(db, options)
+var server = multilevel.server(db, meta)
 server.listen(5000)
 ```
 
@@ -31,6 +31,8 @@ var db = multilevel.client('http://localhost:5000/')
 // now you have the complete levelUP api!
 // ...except for events, for now
 ```
+
+For more advanced stuff (http auth, custom value encoding), checkout the [examples](/examples) folder.
 
 ## CLI
 

@@ -1,19 +1,27 @@
 var multilevel = require('..')
 var server = multilevel.server(__dirname + '/client.test.db')
 var should = require('should')
-var fs = require('fs.extra')
+var rimraf = require('rimraf')
+var nock = require('nock')
+var after = require('after')
 
 server.listen(5001)
 
 beforeEach(function (done) {
+  nock.cleanAll()
   server.db.close()
-  fs.rmrf(__dirname + '/client.test.db', function () {
-    server.db.open()
+  rimraf.sync(__dirname + '/client.test.db')
+  server.db.open(function(err) {
+    if (err) throw err
+
     done()
   })
 })
 
 var db = multilevel.client('http://localhost:5001/')
+var db2 = multilevel.client('http://localhost:5001/', {
+  valueEncoding: 'json'
+})
 
 describe('client', function () {
   describe('db#put(key, value)', function () {
@@ -52,6 +60,18 @@ describe('client', function () {
         })
       })
     })
+
+    it('should default to global encoding', function (done) {
+      db2.put('foo-json', { bar: 1 }, function (err) {
+        if (err) return done(err)
+
+        db2.get('foo-json', function (err, value) {
+          if (err) return done(err)
+          value.bar.should.equal(1)
+          done()
+        })
+      })
+    })
   })
   
   describe('db#get(key)', function () {
@@ -66,6 +86,15 @@ describe('client', function () {
           value.should.equal('bar')
           done()
         })
+      })
+    })
+
+    it('should return notFound err when no val', function (done) {
+      db.get('foo', function (err) {
+        err.should.be.an.instanceOf(Error)
+        err.should.have.property('notFound')
+        err.type.should.equal('NotFoundError')
+        done()
       })
     })
   })
@@ -104,6 +133,23 @@ describe('client', function () {
         })
       })
     })
+
+    it('should default to global encoding', function (done) {
+      db2.batch([
+        { type : 'put', key : 'batch-with-json', value : { apples: 'oranges' } }
+      ], function (err) {
+        if (err) return done(err)
+        
+        db2.get('batch-with-json', function (err, value) {
+          if (err) return done(err)
+          
+          should.exist(value)
+          should.exist(value.apples)
+          value.should.eql({ apples: 'oranges' })
+          done()
+        })
+      })
+    })
   })
   
   describe('db#approximateSize(from, to, cb)', function () {
@@ -136,6 +182,25 @@ describe('client', function () {
         })
       })
     })
+
+    it('should default to global encoding', function (done) {
+      db2.put('foo', { bar: 'baz' }, function (err) {
+        if (err) return done(err)
+        var count = 0
+        
+        db2.readStream()
+        .on('data', function (data) {
+          count++
+          should.exist(data)
+          data.should.eql({ key : 'foo', value : { bar: 'baz' } })
+        })
+        .on('error', done)
+        .on('end', function (data) {
+          count.should.equal(1)
+          done()
+        })
+      })
+    })
   })
   
   describe('db#writeStream()', function () {
@@ -155,4 +220,45 @@ describe('client', function () {
       ws.end()
     })
   })
+
+  describe('bad http codes', function () {
+    var url = 'http://localhost:5001'
+
+    it('should callback with error for bad status codes', function (done) {
+      var next = after(4, function() {
+        done()
+      })
+
+      nock(url)
+        .get('/data/key')
+        .reply(333, 'bad mojo')
+
+      nock(url)
+        .post('/data/key?valueEncoding=utf8')
+        .reply(333, 'bad mojo')
+
+      nock(url)
+        .get('/data?valueEncoding=utf8')
+        .reply(333, 'bad mojo')
+
+      nock(url)
+        .delete('/data/key')
+        .reply(333, 'bad mojo')
+
+      function checkErr(err) {
+        err.should.be.an.Error
+        err.code.should.equal(333)
+        err.message.should.match(/333/)
+        err.should.have.property('uri')
+
+        next()
+      }
+
+      db.get('key', checkErr)
+      db.del('key', checkErr)
+      db.put('key', 'value', checkErr)
+      db.createReadStream().on('error', checkErr)
+    })
+  })
+
 })
