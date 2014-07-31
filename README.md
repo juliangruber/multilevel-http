@@ -63,7 +63,7 @@ Get meta information about the DB.
 
 ### GET /data/:key
 
-Get tha value stored at `:key`.
+Get the value stored at `:key`.
 
 ```js
 // GET /data/foo
