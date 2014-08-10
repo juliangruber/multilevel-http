@@ -29,7 +29,7 @@ Client:
 var multilevel = require('multilevel-http')
 var db = multilevel.client('http://localhost:5000/')
 // now you have the complete levelUP api!
-// ...except for events, for now
+// ...except for events - for those consider multilevel or level-live-stream
 ```
 
 ## CLI
